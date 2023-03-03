@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PencariGithub</string>
+    <string name="dev_icon">Icon Profile</string>
+    <string name="username">Username</string>
+    <string name="following">Following: %d</string>
+    <string name="followers">Followers: %d</string>
+    <string name="repository">Repository: %d</string>
+    <string name="search">Search</string>
+    <string name="pencari_github">Pencari Github</string>
+    <string name="tab_text_2">Followers</string>
+    <string name="tab_text_1">Followings</string>
 </resources>
