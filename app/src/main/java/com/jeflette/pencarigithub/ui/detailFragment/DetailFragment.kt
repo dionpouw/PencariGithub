@@ -36,16 +36,9 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getGithubUser(args.username)
         setupViewPager()
         setupInformation()
-
-//        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            binding.guideline.setGuidelinePercent(0.55f)
-//        } else {
-//            binding.guideline.setGuidelinePercent(0.3f)
-//        }
     }
 
     private fun setupViewPager() {
