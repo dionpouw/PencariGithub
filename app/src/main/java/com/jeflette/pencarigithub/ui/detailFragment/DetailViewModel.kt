@@ -3,6 +3,7 @@ package com.jeflette.pencarigithub.ui.detailFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeflette.pencarigithub.data.GithubUserRepository
+import com.jeflette.pencarigithub.data.local.entity.User
 import com.jeflette.pencarigithub.data.remote.response.DetailUserResponse
 import com.jeflette.pencarigithub.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,12 @@ class DetailViewModel @Inject constructor(
             repository.getDetailUser(username).collectLatest {
                 _user.value = it
             }
+        }
+    }
+
+    fun saveUser(user: User) {
+        viewModelScope.launch {
+            repository.insertUser(user)
         }
     }
 }
