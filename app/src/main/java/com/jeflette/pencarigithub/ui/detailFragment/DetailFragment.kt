@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -36,13 +37,20 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getGithubUser(args.username)
+        viewModel.getGithubUser(args.User.login!!)
         setupViewPager()
         setupInformation()
+        binding.fabFavorite.apply {
+            setImageResource(R.drawable.baseline_favorite_24)
+            setOnClickListener {
+                viewModel.saveUser(args.User)
+                Toast.makeText(context, "User saved", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupViewPager() {
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, args.username)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, args.User.login!!)
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs = binding.tabLayout
