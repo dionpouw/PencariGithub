@@ -9,4 +9,13 @@
     <string name="pencari_github">Pencari Github</string>
     <string name="tab_text_2">Followers</string>
     <string name="tab_text_1">Followings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite_button">Favorite Button</string>
+    <string name="setting_button">Setting Button</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="setting">Setting</string>
+    <string name="no_favorite_user">No Favorite User</string>
 </resources>
