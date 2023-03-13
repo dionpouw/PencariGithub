@@ -8,18 +8,15 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:closeIcon="@drawable/baseline_close_24"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:layoutDirection="rtl"
         android:minHeight="?attr/actionBarSize"
         android:queryHint="@string/search"
         android:text="@string/search"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -30,7 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_users"
