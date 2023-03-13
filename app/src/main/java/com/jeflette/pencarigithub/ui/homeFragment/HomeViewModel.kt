@@ -16,6 +16,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: GithubUserRepository) :
     ViewModel() {
 
+    init {
+        getGithubUser("dionpouw")
+    }
+
     private var _users: MutableStateFlow<Resource<SearchUserResponse>> =
         MutableStateFlow(Resource.Loading())
 
