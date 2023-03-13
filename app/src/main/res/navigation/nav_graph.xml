@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/detailFragment"
@@ -11,12 +11,12 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
 
-        <argument
-            android:name="username"
-            app:argType="string" />
         <action
             android:id="@+id/action_detailFragment_self"
             app:destination="@id/detailFragment" />
+        <argument
+            android:name="User"
+            app:argType="com.jeflette.pencarigithub.data.local.entity.User" />
     </fragment>
     <fragment
         android:id="@+id/followingFollowersFragment"
@@ -32,5 +32,34 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.jeflette.pencarigithub.ui.favoriteFragment.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.jeflette.pencarigithub.ui.settingFragment.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.jeflette.pencarigithub.ui.splashFragment.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
