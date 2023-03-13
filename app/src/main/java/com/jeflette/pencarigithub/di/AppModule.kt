@@ -1,8 +1,15 @@
 package com.jeflette.pencarigithub.di
 
+import android.app.Application
+import androidx.room.Room
 import androidx.viewbinding.BuildConfig
 import com.jeflette.pencarigithub.BuildConfig.API_KEY
 import com.jeflette.pencarigithub.BuildConfig.BASE_URL
+import com.jeflette.pencarigithub.data.GithubUserRepository
+import com.jeflette.pencarigithub.data.local.LocalDataSource
+import com.jeflette.pencarigithub.data.local.db.UserDatabase
+import com.jeflette.pencarigithub.data.preference.UserPreferencesRepository
+import com.jeflette.pencarigithub.data.remote.RemoteDataSource
 import com.jeflette.pencarigithub.network.ApiService
 import dagger.Module
 import dagger.Provides
@@ -28,7 +35,8 @@ object AppModule {
     fun providesOkhttpInterceptor(): Interceptor {
         return Interceptor { chain: Interceptor.Chain ->
             val req = chain.request()
-            val requestBuilder = req.newBuilder().addHeader("Authorization", API_KEY).build()
+            val requestBuilder =
+                req.newBuilder().addHeader("Authorization", ": token $API_KEY").build()
             chain.proceed(requestBuilder)
         }
     }
@@ -55,4 +63,25 @@ object AppModule {
     @Singleton
     fun provideNewsApi(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideAppDatabase(app: Application): UserDatabase = Room.databaseBuilder(
+        app, UserDatabase::class.java, "user_database"
+    ).build()
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(apiService: ApiService) = RemoteDataSource(apiService)
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(db: UserDatabase) = db.userDao()
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource,
+        userPreferencesRepository: UserPreferencesRepository
+    ) = GithubUserRepository(remoteDataSource, localDataSource, userPreferencesRepository)
 }
