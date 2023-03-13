@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jeflette.pencarigithub.data.local.entity.User
 import com.jeflette.pencarigithub.databinding.FragmentHomeBinding
 import com.jeflette.pencarigithub.ui.adapter.GithubAccountAdapter
 import com.jeflette.pencarigithub.utils.Resource
@@ -36,41 +37,50 @@ class HomeFragment : Fragment() {
         binding.rvUsers.apply {
             adapter = userAdapter
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(false)
+            setHasFixedSize(true)
         }
-        userAdapter.notifyDataSetChanged()
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    viewModel.getGithubUser(query)
-                    lifecycleScope.launchWhenStarted {
-                        viewModel.users.collectLatest {
-                            when (it) {
-                                is Resource.Success -> {
-                                    binding.rvUsers.visibility = View.VISIBLE
-                                    binding.progressBar.visibility = View.GONE
-                                    it.data?.items?.let { it1 -> userAdapter.setUserList(it1) }
-                                }
-                                is Resource.Error -> {
-                                    binding.rvUsers.visibility = View.GONE
-                                    binding.progressBar.visibility = View.GONE
-                                }
-                                is Resource.Loading -> {
-                                    binding.rvUsers.visibility = View.GONE
-                                    binding.progressBar.visibility = View.VISIBLE
-                                }
-                            }
+        populateList(userAdapter)
+
+        binding.apply {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query != null) {
+                        viewModel.getGithubUser(query)
+                        populateList(userAdapter)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            })
+        }
+    }
+
+    private fun populateList(userAdapter: GithubAccountAdapter) {
+        lifecycleScope.launchWhenStarted {
+            viewModel.users.collectLatest {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.rvUsers.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
+                        it.data?.items?.let { userData ->
+                            userAdapter.setData(userData as ArrayList<User>)
                         }
                     }
+                    is Resource.Error -> {
+                        binding.rvUsers.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                    }
+                    is Resource.Loading -> {
+                        binding.rvUsers.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
                 }
-                return true
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
+        }
     }
 
     override fun onDetach() {
